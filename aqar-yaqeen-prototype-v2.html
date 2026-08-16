@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aqar Yaqeen — Find your home with certainty</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --deep:#0d3b2e; --deep2:#153f31; --deep3:#0a2d23;
+    --sage:#f3f6f1; --sage2:#e7ede3;
+    --gold:#a9762f; --gold-light:#f4ead9; --gold-dark:#7c5620;
+    --ink:#16201a; --muted:#5c665c; --line:#dde3d8; --white:#ffffff;
+    --danger:#a3452b;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:'Inter',sans-serif;background:var(--sage);color:var(--ink);line-height:1.55;}
+  h1,h2,h3{font-family:'Fraunces',serif;font-weight:500;margin:0;color:var(--deep3);}
+  .wrap{max-width:1140px;margin:0 auto;padding:0 28px;}
+  a{color:inherit;}
+
+  .seal{display:inline-flex;align-items:center;gap:6px;background:var(--deep);color:#fff;padding:6px 12px 6px 8px;border-radius:100px;font-size:12px;font-weight:600;letter-spacing:.2px;}
+  .seal .ring{width:16px;height:16px;border-radius:50%;border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--gold);flex-shrink:0;}
+
+  header{position:sticky;top:0;z-index:40;background:rgba(243,246,241,.92);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);}
+  .navrow{display:flex;align-items:center;justify-content:space-between;padding:16px 0;}
+  .brand{display:flex;flex-direction:column;line-height:1.1;}
+  .brand .name{font-family:'Fraunces',serif;font-size:20px;font-weight:600;color:var(--deep3);}
+  .brand .tag{font-size:11px;color:var(--muted);letter-spacing:.3px;}
+  .navlinks{display:flex;gap:26px;font-size:14px;font-weight:500;color:var(--deep3);}
+  .navlinks a{text-decoration:none;}
+  .btn{border:none;border-radius:8px;padding:11px 20px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;}
+  .btn-primary{background:var(--deep);color:#fff;}
+  .btn-primary:hover{background:var(--deep3);}
+  .btn-gold{background:var(--gold);color:#fff;}
+  .btn-gold:hover{background:var(--gold-dark);}
+  .btn-ghost{background:transparent;border:1px solid var(--deep);color:var(--deep);}
+
+  .hero{padding:64px 0 40px;text-align:center;}
+  .eyebrow{display:inline-block;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--gold-dark);background:var(--gold-light);padding:6px 14px;border-radius:100px;margin-bottom:18px;}
+  .hero h1{font-size:44px;line-height:1.12;max-width:680px;margin:0 auto 16px;}
+  .hero h1 em{font-style:italic;color:var(--gold-dark);}
+  .hero p{color:var(--muted);font-size:16px;max-width:480px;margin:0 auto 28px;}
+  .searchbox{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;max-width:640px;margin:0 auto;display:flex;gap:10px;align-items:center;box-shadow:0 8px 24px rgba(13,59,46,.06);flex-wrap:wrap;}
+  .searchbox input{flex:1;border:none;font-size:15px;padding:8px 10px;font-family:'Inter',sans-serif;min-width:140px;}
+  .searchbox input:focus{outline:none;}
+  .toggle-wrap{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--deep3);font-weight:500;white-space:nowrap;padding-right:6px;border-right:1px solid var(--line);margin-right:4px;}
+  .toggle{position:relative;width:38px;height:22px;background:var(--line);border-radius:12px;cursor:pointer;flex-shrink:0;transition:background .15s;}
+  .toggle.on{background:var(--deep);}
+  .toggle .dot{position:absolute;top:2px;left:2px;width:18px;height:18px;background:#fff;border-radius:50%;transition:transform .15s;}
+  .toggle.on .dot{transform:translateX(16px);}
+
+  .trustbar{background:var(--deep);color:#fff;padding:30px 0;}
+  .trustgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;text-align:center;}
+  .trustitem{padding:0 10px;}
+  .trusticon{width:38px;height:38px;border:1.5px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;color:var(--gold);font-size:14px;font-weight:700;}
+  .trustitem p{font-size:13px;margin:0;color:#dfe8e2;}
+  .trustitem strong{display:block;font-size:14px;color:#fff;margin-bottom:3px;}
+
+  section{padding:56px 0;}
+  .section-head{text-align:center;max-width:560px;margin:0 auto 36px;}
+  .section-head h2{font-size:30px;margin-bottom:10px;}
+  .section-head p{color:var(--muted);font-size:15px;}
+
+  .features{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+  .feature-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:26px;}
+  .feature-card .ficon{width:42px;height:42px;background:var(--gold-light);color:var(--gold-dark);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:16px;}
+  .feature-card h3{font-size:17px;margin-bottom:8px;}
+  .feature-card p{font-size:13.5px;color:var(--muted);margin:0;}
+
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
+  .step{position:relative;padding-top:6px;}
+  .step .num{font-family:'Fraunces',serif;font-size:32px;color:var(--gold);opacity:.5;margin-bottom:6px;}
+  .step h3{font-size:15px;margin-bottom:6px;}
+  .step p{font-size:13px;color:var(--muted);margin:0;}
+
+  .listings-bg{background:var(--sage2);}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;}
+  .lcard{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;cursor:pointer;transition:box-shadow .15s,transform .15s;}
+  .lcard:hover{box-shadow:0 10px 28px rgba(13,59,46,.1);transform:translateY(-2px);}
+  .lthumb{height:150px;background:linear-gradient(135deg,#cfd8c9,#adbba3);position:relative;display:flex;align-items:flex-end;padding:10px;}
+  .tag-row{display:flex;gap:6px;flex-wrap:wrap;}
+  .tag{font-size:10.5px;font-weight:700;background:rgba(13,59,46,.85);color:#fff;padding:4px 8px;border-radius:6px;display:flex;align-items:center;gap:4px;}
+  .lbody{padding:16px;}
+  .lbody .badges{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;}
+  .merged-badge{font-size:11px;font-weight:700;color:var(--danger);background:#faece7;padding:4px 8px;border-radius:8px;}
+  .lbody h4{font-size:15px;margin:0 0 4px;font-family:'Inter',sans-serif;font-weight:600;}
+  .lbody .meta{font-size:13px;color:var(--muted);margin:0 0 8px;}
+  .lbody .price{font-size:16px;font-weight:700;color:var(--deep3);}
+
+  .brokers{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+  .bcard{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px;}
+  .bcard-top{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
+  .avatar{width:42px;height:42px;border-radius:50%;background:var(--deep);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:14px;flex-shrink:0;}
+  .bcard h4{font-size:14.5px;margin:0;font-family:'Inter',sans-serif;}
+  .bcard .sub{font-size:12px;color:var(--muted);}
+  .score-row{display:flex;align-items:baseline;gap:6px;margin-bottom:8px;}
+  .score{font-family:'Fraunces',serif;font-size:22px;color:var(--deep3);}
+  .score-max{font-size:12px;color:var(--muted);}
+  .bar{height:6px;background:var(--sage2);border-radius:4px;overflow:hidden;margin-bottom:8px;}
+  .bar-fill{height:100%;background:var(--gold);}
+  .bcard .note{font-size:12px;color:var(--muted);margin:0;}
+
+  .assistant-section{background:var(--deep);color:#fff;}
+  .assistant-section .section-head h2{color:#fff;}
+  .assistant-section .section-head p{color:#c7d6cd;}
+  .chatbox{max-width:560px;margin:0 auto;background:#fff;border-radius:16px;overflow:hidden;color:var(--ink);}
+  .chat-head{background:var(--deep3);color:#fff;padding:14px 18px;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:600;}
+  .chat-head .dot-live{width:8px;height:8px;border-radius:50%;background:#5fd08a;}
+  .chat-body{padding:18px;min-height:220px;display:flex;flex-direction:column;gap:12px;}
+  .msg{max-width:82%;padding:10px 14px;border-radius:14px;font-size:14px;line-height:1.5;}
+  .msg.bot{background:var(--sage2);align-self:flex-start;border-bottom-left-radius:4px;}
+  .msg.user{background:var(--deep);color:#fff;align-self:flex-end;border-bottom-right-radius:4px;}
+  .chat-quick{display:flex;flex-wrap:wrap;gap:8px;padding:0 18px 16px;}
+  .qbtn{background:var(--gold-light);color:var(--gold-dark);border:none;padding:8px 14px;border-radius:100px;font-size:12.5px;font-weight:600;cursor:pointer;}
+  .qbtn:hover{background:#ecd8b3;}
+  .chat-input-row{display:flex;gap:8px;padding:14px 18px;border-top:1px solid var(--line);}
+  .chat-input-row input{flex:1;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:14px;font-family:'Inter',sans-serif;}
+  .chat-input-row input:focus{outline:none;border-color:var(--deep);}
+  .chat-input-row button{background:var(--deep);color:#fff;border:none;border-radius:10px;padding:0 16px;font-weight:600;cursor:pointer;}
+  .typing{align-self:flex-start;background:var(--sage2);border-radius:14px;padding:10px 16px;display:none;margin:0 18px;}
+  .typing.show{display:flex;gap:4px;}
+  .typing span{width:6px;height:6px;background:var(--muted);border-radius:50%;animation:blink 1.2s infinite;}
+  .typing span:nth-child(2){animation-delay:.2s;}
+  .typing span:nth-child(3){animation-delay:.4s;}
+  @keyframes blink{0%,80%,100%{opacity:.3}40%{opacity:1}}
+
+  .finalcta{text-align:center;padding:70px 0;}
+  .finalcta h2{font-size:32px;max-width:520px;margin:0 auto 14px;}
+  .finalcta p{color:var(--muted);margin:0 auto 26px;max-width:440px;}
+
+  footer{background:var(--deep3);color:#c7d6cd;padding:36px 0;font-size:13px;text-align:center;}
+
+  .overlay{display:none;position:fixed;inset:0;background:rgba(10,45,35,.55);z-index:100;align-items:center;justify-content:center;padding:20px;}
+  .overlay.open{display:flex;}
+  .modal{background:#fff;border-radius:18px;max-width:640px;width:100%;max-height:88vh;overflow-y:auto;padding:0;position:relative;}
+  .modal-photo{height:220px;background:linear-gradient(135deg,#cfd8c9,#adbba3);border-radius:18px 18px 0 0;}
+  .modal-body{padding:26px;}
+  .modal-close{position:absolute;top:14px;right:14px;background:#fff;border:none;width:32px;height:32px;border-radius:50%;font-size:16px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.15);}
+  .price-box{background:var(--sage2);border-radius:10px;padding:14px 16px;margin:16px 0;}
+  .price-row{display:flex;justify-content:space-between;font-size:14px;padding:3px 0;color:var(--deep3);}
+  .price-row.total{font-weight:700;border-top:1px solid var(--line);margin-top:6px;padding-top:8px;}
+  .loc-box{background:var(--gold-light);border-radius:10px;padding:14px 16px;font-size:13px;color:var(--gold-dark);margin-bottom:16px;}
+  .checklist{margin:0 0 20px;padding:0;list-style:none;}
+  .checklist li{font-size:13px;color:var(--muted);padding:4px 0 4px 22px;position:relative;}
+  .checklist li:before{content:"✓";position:absolute;left:0;color:var(--deep);font-weight:700;}
+
+  @media(max-width:820px){
+    .trustgrid,.features,.steps,.brokers{grid-template-columns:1fr;}
+    .hero h1{font-size:32px;}
+    .navlinks{display:none;}
+    .toggle-wrap{border-right:none;padding-right:0;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap navrow">
+    <div class="brand"><span class="name">Aqar Yaqeen</span><span class="tag">عقار يقين — certain property</span></div>
+    <div class="navlinks">
+      <a href="#how">How it works</a>
+      <a href="#listings">Verified listings</a>
+      <a href="#brokers">For brokers</a>
+    </div>
+    <button class="btn btn-primary" onclick="scrollToId('assistant')">Start verified search</button>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <span class="eyebrow">Trust-based real estate</span>
+    <h1>Find your home with <em>100% certainty</em></h1>
+    <p>Every listing is identity-verified and duplicate-checked before it goes live. No fake ads, no bait-and-switch, no wasted weekends.</p>
+    <div class="searchbox">
+      <input type="text" id="heroSearch" placeholder="Search by area, e.g. New Cairo" oninput="renderGrid()">
+      <div class="toggle-wrap">
+        Verified only
+        <div class="toggle on" id="verifiedToggle" onclick="toggleVerified()"><div class="dot"></div></div>
+      </div>
+      <button class="btn btn-gold" onclick="renderGrid();scrollToId('listings')">Search</button>
+    </div>
+  </div>
+</section>
+
+<div class="trustbar">
+  <div class="wrap trustgrid">
+    <div class="trustitem">
+      <div class="trusticon">ID</div>
+      <strong>National ID checks</strong>
+      <p>Every seller and broker is identity-verified before listing.</p>
+    </div>
+    <div class="trustitem">
+      <div class="trusticon">QR</div>
+      <strong>Government QR-code integration</strong>
+      <p>Aligned with Egypt's official property verification initiative.</p>
+    </div>
+    <div class="trustitem">
+      <div class="trusticon">GPS</div>
+      <strong>GPS-tagged media</strong>
+      <p>Photos and video walkthroughs are tagged to the real location.</p>
+    </div>
+  </div>
+</div>
+
+<section id="how">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>The problems we solve</h2>
+      <p>Egypt's property market loses buyers to fraud, duplication, and hidden fees. Here's the mechanism behind each fix.</p>
+    </div>
+    <div class="features">
+      <div class="feature-card">
+        <div class="ficon">⟲</div>
+        <h3>AI duplicate detector</h3>
+        <p>The same unit is often posted 10+ times by different brokers at different prices. Our AI auto-merges every duplicate into one single, authenticated entry.</p>
+      </div>
+      <div class="feature-card">
+        <div class="ficon">◎</div>
+        <h3>Location privacy, solved fairly</h3>
+        <p>Buyers see a real, GPS-tagged approximate area immediately. The exact pin only unlocks once the owner or broker confirms a scheduled visit — protecting both sides.</p>
+      </div>
+      <div class="feature-card">
+        <div class="ficon">฿</div>
+        <h3>Pricing transparency</h3>
+        <p>Commission is disclosed upfront, with a full fee breakdown before you ever book a visit. No hidden costs appearing late in the process.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="listings-bg">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>How verification works</h2>
+      <p>Four steps happen before a listing is allowed to go live.</p>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="num">01</div><h3>Documents submitted</h3><p>Broker or owner uploads ID and property proof — a deed excerpt, utility bill, or government QR code.</p></div>
+      <div class="step"><div class="num">02</div><h3>Verified and merged</h3><p>Our system checks the documents and AI merges any duplicate postings into one entry.</p></div>
+      <div class="step"><div class="num">03</div><h3>Explore with confidence</h3><p>Buyers browse GPS-tagged photos and video walkthroughs of the real unit.</p></div>
+      <div class="step"><div class="num">04</div><h3>Book to unlock</h3><p>Scheduling a visit unlocks the exact address and a legal document checklist.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="listings">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Verified listings</h2>
+      <p>Every card carries the seal. Tap one to see the full verification and price breakdown.</p>
+    </div>
+    <div class="grid" id="grid"></div>
+  </div>
+</section>
+
+<section id="brokers" class="listings-bg">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Broker accountability score</h2>
+      <p>Ratings are tied strictly to completed, verified transactions — not star-ratings that can be gamed.</p>
+    </div>
+    <div class="brokers">
+      <div class="bcard">
+        <div class="bcard-top"><div class="avatar">MH</div><div><h4>Mostafa H.</h4><div class="sub">New Cairo · 3 years</div></div></div>
+        <div class="score-row"><span class="score">4.8</span><span class="score-max">/ 5 · 32 verified deals</span></div>
+        <div class="bar"><div class="bar-fill" style="width:96%"></div></div>
+        <p class="note">Rated only by buyers who completed a verified transaction.</p>
+      </div>
+      <div class="bcard">
+        <div class="bcard-top"><div class="avatar">RA</div><div><h4>Rania A.</h4><div class="sub">Sheikh Zayed · 5 years</div></div></div>
+        <div class="score-row"><span class="score">4.6</span><span class="score-max">/ 5 · 51 verified deals</span></div>
+        <div class="bar"><div class="bar-fill" style="width:92%"></div></div>
+        <p class="note">Rated only by buyers who completed a verified transaction.</p>
+      </div>
+      <div class="bcard">
+        <div class="bcard-top"><div class="avatar">KS</div><div><h4>Karim S.</h4><div class="sub">6th of October · 2 years</div></div></div>
+        <div class="score-row"><span class="score">4.9</span><span class="score-max">/ 5 · 18 verified deals</span></div>
+        <div class="bar"><div class="bar-fill" style="width:98%"></div></div>
+        <p class="note">Rated only by buyers who completed a verified transaction.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="assistant-section" id="assistant">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Ask the assistant</h2>
+      <p>Describe what you need in your own words — it explains its reasoning, not just filters.</p>
+    </div>
+    <div class="chatbox">
+      <div class="chat-head"><span class="dot-live"></span> Aqar Yaqeen assistant</div>
+      <div class="chat-body" id="chatBody">
+        <div class="msg bot">Hi, I can help you find a verified home. What's your budget and which area are you considering?</div>
+      </div>
+      <div class="typing" id="typing"><span></span><span></span><span></span></div>
+      <div class="chat-quick">
+        <button class="qbtn" onclick="sendQuick('Around 3 million EGP in New Cairo')">Around 3M EGP, New Cairo</button>
+        <button class="qbtn" onclick="sendQuick('First home, need it verified')">First home, need it verified</button>
+        <button class="qbtn" onclick="sendQuick('What documents get checked?')">What documents get checked?</button>
+      </div>
+      <div class="chat-input-row">
+        <input type="text" id="chatInput" placeholder="Type a message..." onkeydown="if(event.key==='Enter')sendMessage()">
+        <button onclick="sendMessage()">Send</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="finalcta">
+  <div class="wrap">
+    <h2>Verify your property today</h2>
+    <p>Whether you're buying or listing, certainty starts with one verified entry.</p>
+    <button class="btn btn-primary" onclick="scrollToId('listings')" style="margin-right:10px">Start your verified search</button>
+    <button class="btn btn-ghost">List your property</button>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">Aqar Yaqeen — عقار يقين · A verified-listing prototype for Egypt's real estate market</div>
+</footer>
+
+<div class="overlay" id="overlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<script>
+const listings = [
+  {id:1,title:"2BR apartment, Al Narges",area:"New Cairo",price:2450000,commission:1.5,merged:false},
+  {id:2,title:"3BR apartment, Zayed Dunes",area:"Sheikh Zayed",price:3900000,commission:2,merged:true,mergedCount:3},
+  {id:3,title:"Studio, Beverly Hills",area:"6th of October",price:1650000,commission:1,merged:false},
+  {id:4,title:"3BR apartment, Mivida",area:"New Cairo",price:4800000,commission:2.5,merged:false},
+  {id:5,title:"2BR apartment, Sodic West",area:"Sheikh Zayed",price:2900000,commission:1.5,merged:false},
+  {id:6,title:"4BR villa, Palm Hills October",area:"6th of October",price:7200000,commission:2,merged:false},
+  {id:7,title:"2BR apartment, Katameya",area:"New Cairo",price:2150000,commission:1,merged:false},
+  {id:8,title:"3BR apartment, Aliva Zayed",area:"Sheikh Zayed",price:3300000,commission:2,merged:false}
+];
+let verifiedOnly = true;
+
+function fmt(n){return n.toLocaleString()+' EGP';}
+function scrollToId(id){document.getElementById(id).scrollIntoView({behavior:'smooth'});}
+
+function toggleVerified(){
+  verifiedOnly = !verifiedOnly;
+  document.getElementById('verifiedToggle').classList.toggle('on', verifiedOnly);
+  renderGrid();
+}
+
+function renderGrid(){
+  const q=(document.getElementById('heroSearch').value||'').toLowerCase();
+  const items = listings.filter(l => l.title.toLowerCase().includes(q) || l.area.toLowerCase().includes(q));
+  document.getElementById('grid').innerHTML = items.map(l=>`
+    <div class="lcard" onclick="openModal(${l.id})">
+      <div class="lthumb">
+        <div class="tag-row">
+          <span class="tag">GPS-verified</span>
+          <span class="tag">Walkthrough</span>
+        </div>
+      </div>
+      <div class="lbody">
+        <div class="badges">
+          <span class="seal"><span class="ring">✓</span>Verified</span>
+          ${l.merged?`<span class="merged-badge">Merged ×${l.mergedCount}</span>`:''}
+        </div>
+        <h4>${l.title}</h4>
+        <p class="meta">${l.area}</p>
+        <p class="price">${fmt(l.price)}</p>
+      </div>
+    </div>
+  `).join('') || '<p style="color:var(--muted);grid-column:1/-1;text-align:center;padding:30px 0">No listings match that search.</p>';
+}
+renderGrid();
+
+function openModal(id){
+  const l = listings.find(x=>x.id===id);
+  const commissionAmt = Math.round(l.price * l.commission/100);
+  document.getElementById('modalContent').innerHTML = `
+    <div class="modal-photo"></div>
+    <div class="modal-body">
+      <div class="badges" style="margin-bottom:12px">
+        <span class="seal"><span class="ring">✓</span>Verified</span>
+        ${l.merged?`<span class="merged-badge" style="margin-left:8px">Merged from ${l.mergedCount} broker posts</span>`:''}
+      </div>
+      <h3 style="font-size:22px;margin-bottom:4px">${l.title}</h3>
+      <p style="color:var(--muted);margin:0 0 14px">${l.area}</p>
+      <div class="price-box">
+        <div class="price-row"><span>Property price</span><span>${fmt(l.price)}</span></div>
+        <div class="price-row"><span>Broker commission (${l.commission}%)</span><span>${fmt(commissionAmt)}</span></div>
+        <div class="price-row total"><span>Total upfront</span><span>${fmt(l.price)}</span></div>
+      </div>
+      <div class="loc-box"><strong>Approximate location.</strong> This unit is in ${l.area}. The exact address and a legal document checklist unlock once your visit is confirmed.</div>
+      <ul class="checklist">
+        <li>Verified national ID on file for seller</li>
+        <li>Deed excerpt or utility bill matched to address</li>
+        <li>GPS-tagged photos and video walkthrough</li>
+      </ul>
+      <button class="btn btn-primary" style="width:100%">Request a visit</button>
+    </div>
+  `;
+  document.getElementById('overlay').classList.add('open');
+}
+function closeModal(){document.getElementById('overlay').classList.remove('open');}
+
+const chatBody = document.getElementById('chatBody');
+const typingEl = document.getElementById('typing');
+function addMsg(text, who){
+  const d=document.createElement('div');
+  d.className='msg '+who;
+  d.textContent=text;
+  chatBody.appendChild(d);
+  chatBody.scrollTop = chatBody.scrollHeight;
+}
+function reply(userText){
+  typingEl.classList.add('show');
+  chatBody.scrollTop = chatBody.scrollHeight;
+  setTimeout(()=>{
+    typingEl.classList.remove('show');
+    let response;
+    const t = userText.toLowerCase();
+    if(t.includes('document') || t.includes('check')){
+      response = "Every listing needs at least one proof document — a deed excerpt, a utility bill in the owner's name, or a government QR code — plus a matching national ID. Nothing goes live without that.";
+    } else if(t.includes('million') || t.includes('budget') || /\d/.test(t)){
+      response = "Got it. Based on that budget, I'd point you toward the verified 2 to 3 bedroom listings in New Cairo and Sheikh Zayed — they're in range and none of them have duplicate postings. Want me to filter the listings below to just those?";
+    } else if(t.includes('first home') || t.includes('verified')){
+      response = "Since it's your first home, I'd also recommend booking one of our verification-agent visits — a third party confirms the property in person before you commit your own time. Want to see how that works?";
+    } else {
+      response = "Tell me your budget and preferred area, and I'll explain why I'm recommending specific verified listings — not just filtering a list.";
+    }
+    addMsg(response, 'bot');
+  }, 900);
+}
+function sendMessage(){
+  const input = document.getElementById('chatInput');
+  const val = input.value.trim();
+  if(!val) return;
+  addMsg(val,'user');
+  input.value='';
+  reply(val);
+}
+function sendQuick(text){
+  addMsg(text,'user');
+  reply(text);
+}
+</script>
+</body>
+</html>
