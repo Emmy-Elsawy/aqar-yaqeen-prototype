@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aqar Yaqeen — Prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --deep:#0d3b2e; --deep2:#153f31; --deep3:#0a2d23;
+    --sage:#f3f6f1; --sage2:#e7ede3;
+    --gold:#a9762f; --gold-light:#f4ead9; --gold-dark:#7c5620;
+    --ink:#16201a; --muted:#5c665c; --line:#dde3d8; --danger:#a3452b;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:'Inter',sans-serif;background:var(--sage);color:var(--ink);line-height:1.5;}
+  h1,h2,h3{font-family:'Fraunces',serif;font-weight:500;margin:0;color:var(--deep3);}
+  .wrap{max-width:1000px;margin:0 auto;padding:0 24px;}
+  .seal{display:inline-flex;align-items:center;gap:6px;background:var(--deep);color:#fff;padding:6px 12px 6px 8px;border-radius:100px;font-size:12px;font-weight:600;}
+  .seal .ring{width:16px;height:16px;border-radius:50%;border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--gold);flex-shrink:0;}
+  .btn{border:none;border-radius:8px;padding:11px 20px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;}
+  .btn-primary{background:var(--deep);color:#fff;width:100%;}
+  .btn-primary:hover{background:var(--deep3);}
+  .btn-gold{background:var(--gold);color:#fff;}
+
+  /* app shell */
+  .app{max-width:1000px;margin:0 auto;min-height:100vh;background:var(--sage);}
+  header{display:flex;align-items:center;justify-content:space-between;padding:14px 24px;border-bottom:1px solid var(--line);background:#fff;position:sticky;top:0;z-index:20;}
+  .brand{font-family:'Fraunces',serif;font-size:18px;font-weight:600;color:var(--deep3);}
+  .brand span{color:var(--gold-dark);}
+  nav{display:flex;gap:4px;flex-wrap:wrap;}
+  nav button{border:none;background:transparent;padding:8px 13px;border-radius:16px;font-size:13px;cursor:pointer;color:var(--muted);font-weight:600;font-family:'Inter',sans-serif;}
+  nav button.active{background:var(--sage2);color:var(--deep3);}
+  main{padding:26px 24px 60px;}
+  .screen{display:none;}
+  .screen.active{display:block;animation:fade .2s ease;}
+  @keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+  .back{background:none;border:none;color:var(--deep);font-size:14px;cursor:pointer;margin-bottom:16px;padding:0;font-weight:600;}
+
+  .hero{text-align:center;padding:20px 0 30px;}
+  .eyebrow{display:inline-block;font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--gold-dark);background:var(--gold-light);padding:5px 12px;border-radius:100px;margin-bottom:14px;}
+  .hero h1{font-size:32px;margin:0 0 10px;}
+  .hero h1 em{font-style:italic;color:var(--gold-dark);}
+  .hero p{color:var(--muted);font-size:15px;max-width:440px;margin:0 auto 22px;}
+
+  .trustgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:26px 0;}
+  .trustitem{background:var(--deep);color:#fff;border-radius:12px;padding:16px;text-align:center;}
+  .trusticon{width:32px;height:32px;border:1.5px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 8px;color:var(--gold);font-size:11px;font-weight:700;}
+  .trustitem strong{display:block;font-size:12.5px;color:#fff;}
+
+  .searchbar{display:flex;gap:10px;margin:20px 0 14px;flex-wrap:wrap;}
+  .searchbar input{flex:1;padding:11px 14px;border-radius:10px;border:1px solid var(--line);font-size:14px;min-width:160px;}
+  .toggle-row{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;}
+  .toggle{position:relative;width:36px;height:20px;background:var(--line);border-radius:12px;cursor:pointer;flex-shrink:0;}
+  .toggle.on{background:var(--deep);}
+  .toggle .dot{position:absolute;top:2px;left:2px;width:16px;height:16px;background:#fff;border-radius:50%;transition:transform .15s;}
+  .toggle.on .dot{transform:translateX(16px);}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;}
+  .lcard{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;cursor:pointer;transition:box-shadow .15s;}
+  .lcard:hover{box-shadow:0 6px 18px rgba(13,59,46,.08);}
+  .lthumb{height:120px;background:linear-gradient(135deg,#cfd8c9,#adbba3);display:flex;align-items:flex-end;padding:8px;gap:6px;}
+  .tag{font-size:10px;font-weight:700;background:rgba(13,59,46,.85);color:#fff;padding:3px 7px;border-radius:6px;}
+  .lbody{padding:14px;}
+  .lbody .badges{display:flex;justify-content:space-between;margin-bottom:8px;}
+  .merged{font-size:10.5px;font-weight:700;color:var(--danger);background:#faece7;padding:3px 7px;border-radius:8px;}
+  .lbody h4{font-size:14px;margin:0 0 3px;font-family:'Inter',sans-serif;font-weight:600;}
+  .lbody .meta{font-size:12.5px;color:var(--muted);margin:0 0 6px;}
+  .lbody .price{font-size:15px;font-weight:700;color:var(--deep3);}
+
+  .features{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:36px;}
+  .fcard{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px;}
+  .fcard .ficon{width:36px;height:36px;background:var(--gold-light);color:var(--gold-dark);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;margin-bottom:12px;}
+  .fcard h3{font-size:15px;margin-bottom:6px;}
+  .fcard p{font-size:13px;color:var(--muted);margin:0;}
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+  .step .num{font-family:'Fraunces',serif;font-size:26px;color:var(--gold);opacity:.5;margin-bottom:4px;}
+  .step h3{font-size:14px;margin-bottom:4px;}
+  .step p{font-size:12.5px;color:var(--muted);margin:0;}
+
+  .brokers{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;}
+  .bcard{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;}
+  .bcard-top{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+  .avatar{width:38px;height:38px;border-radius:50%;background:var(--deep);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:13px;flex-shrink:0;}
+  .bcard h4{font-size:14px;margin:0;}
+  .bcard .sub{font-size:11.5px;color:var(--muted);}
+  .score-row{display:flex;align-items:baseline;gap:6px;margin-bottom:6px;}
+  .score{font-family:'Fraunces',serif;font-size:20px;}
+  .score-max{font-size:11px;color:var(--muted);}
+  .bar{height:5px;background:var(--sage2);border-radius:4px;overflow:hidden;margin-bottom:6px;}
+  .bar-fill{height:100%;background:var(--gold);}
+  .bcard .note{font-size:11.5px;color:var(--muted);margin:0;}
+
+  .chatbox{background:#fff;border-radius:16px;overflow:hidden;border:1px solid var(--line);}
+  .chat-head{background:var(--deep3);color:#fff;padding:12px 16px;display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;}
+  .dot-live{width:7px;height:7px;border-radius:50%;background:#5fd08a;}
+  .chat-body{padding:16px;min-height:260px;display:flex;flex-direction:column;gap:10px;}
+  .msg{max-width:82%;padding:9px 13px;border-radius:14px;font-size:13.5px;}
+  .msg.bot{background:var(--sage2);align-self:flex-start;border-bottom-left-radius:4px;}
+  .msg.user{background:var(--deep);color:#fff;align-self:flex-end;border-bottom-right-radius:4px;}
+  .chat-quick{display:flex;flex-wrap:wrap;gap:6px;padding:0 16px 14px;}
+  .qbtn{background:var(--gold-light);color:var(--gold-dark);border:none;padding:7px 12px;border-radius:100px;font-size:12px;font-weight:600;cursor:pointer;}
+  .chat-input-row{display:flex;gap:8px;padding:12px 16px;border-top:1px solid var(--line);}
+  .chat-input-row input{flex:1;border:1px solid var(--line);border-radius:10px;padding:9px 11px;font-size:13.5px;}
+  .chat-input-row button{background:var(--deep);color:#fff;border:none;border-radius:10px;padding:0 14px;font-weight:600;cursor:pointer;}
+  .typing{align-self:flex-start;background:var(--sage2);border-radius:14px;padding:9px 14px;display:none;gap:4px;margin-left:16px;}
+  .typing.show{display:flex;}
+  .typing span{width:5px;height:5px;background:var(--muted);border-radius:50%;animation:blink 1.2s infinite;}
+  .typing span:nth-child(2){animation-delay:.2s;}
+  .typing span:nth-child(3){animation-delay:.4s;}
+  @keyframes blink{0%,80%,100%{opacity:.3}40%{opacity:1}}
+
+  .detail-photo{height:220px;border-radius:14px;background:linear-gradient(135deg,#cfd8c9,#adbba3);margin-bottom:18px;}
+  .price-box{background:var(--sage2);border-radius:10px;padding:14px 16px;margin:14px 0;}
+  .price-row{display:flex;justify-content:space-between;font-size:14px;padding:3px 0;color:var(--deep3);}
+  .price-row.total{font-weight:700;border-top:1px solid var(--line);margin-top:6px;padding-top:8px;}
+  .loc-box{background:var(--gold-light);border-radius:10px;padding:14px 16px;font-size:13px;color:var(--gold-dark);margin:14px 0;}
+  .checklist{margin:0 0 20px;padding:0;list-style:none;}
+  .checklist li{font-size:13px;color:var(--muted);padding:4px 0 4px 22px;position:relative;}
+  .checklist li:before{content:"✓";position:absolute;left:0;color:var(--deep);font-weight:700;}
+
+  .form-group{margin-bottom:16px;}
+  .form-group label{display:block;font-size:13px;font-weight:600;margin-bottom:6px;}
+  .form-group input{width:100%;padding:10px 12px;border-radius:8px;border:1px solid var(--line);font-size:14px;}
+  .error{color:var(--danger);font-size:12px;margin-top:4px;display:none;}
+  .success{background:var(--sage2);color:var(--deep3);padding:16px;border-radius:10px;font-size:14px;margin-top:16px;display:none;}
+  .escrow-note{background:var(--gold-light);color:var(--gold-dark);font-size:12px;padding:10px 12px;border-radius:8px;margin-bottom:16px;}
+
+  .account-item{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;}
+  .status{font-size:11.5px;font-weight:700;padding:4px 10px;border-radius:10px;background:#faeeda;color:#633806;white-space:nowrap;}
+  .status.confirmed{background:var(--sage2);color:var(--deep3);}
+  .empty{text-align:center;color:var(--muted);padding:36px 0;font-size:14px;}
+
+  @media(max-width:760px){
+    .trustgrid,.features,.steps{grid-template-columns:1fr;}
+    nav{display:none;}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div class="brand">Aqar <span>Yaqeen</span></div>
+    <nav>
+      <button class="navbtn active" data-s="home" onclick="go('home')">Home</button>
+      <button class="navbtn" data-s="listings" onclick="go('listings')">Listings</button>
+      <button class="navbtn" data-s="how" onclick="go('how')">How it works</button>
+      <button class="navbtn" data-s="brokers" onclick="go('brokers')">Brokers</button>
+      <button class="navbtn" data-s="assistant" onclick="go('assistant')">Assistant</button>
+      <button class="navbtn" data-s="account" onclick="go('account')">My requests</button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="screen active" id="s-home">
+      <div class="hero">
+        <span class="eyebrow">Trust-based real estate</span>
+        <h1>Find your home with <em>100% certainty</em></h1>
+        <p>Every listing is identity-verified and duplicate-checked before it goes live.</p>
+        <button class="btn btn-gold" onclick="go('assistant')">Ask the AI assistant</button>
+      </div>
+      <div class="trustgrid">
+        <div class="trustitem"><div class="trusticon">ID</div><strong>National ID checks</strong></div>
+        <div class="trustitem"><div class="trusticon">QR</div><strong>Gov QR-code integration</strong></div>
+        <div class="trustitem"><div class="trusticon">GPS</div><strong>GPS-tagged media</strong></div>
+      </div>
+      <button class="btn btn-primary" onclick="go('listings')">Browse verified listings</button>
+    </section>
+
+    <section class="screen" id="s-listings">
+      <h2 style="margin-bottom:16px">Verified listings</h2>
+      <div class="searchbar">
+        <input type="text" id="searchInput" placeholder="Search by area..." oninput="renderGrid()">
+        <div class="toggle-row">Verified only<div class="toggle on" id="vToggle" onclick="toggleVerified()"><div class="dot"></div></div></div>
+      </div>
+      <div class="grid" id="grid"></div>
+    </section>
+
+    <section class="screen" id="s-detail"></section>
+    <section class="screen" id="s-action"></section>
+
+    <section class="screen" id="s-how">
+      <h2 style="margin-bottom:20px">How it works</h2>
+      <div class="features">
+        <div class="fcard"><div class="ficon">⟲</div><h3>AI duplicate detector</h3><p>Auto-merges 10+ duplicate broker posts of the same unit into one authenticated entry.</p></div>
+        <div class="fcard"><div class="ficon">◎</div><h3>Location privacy, solved fairly</h3><p>Approximate area shown immediately; exact pin unlocks only once a visit is confirmed.</p></div>
+        <div class="fcard"><div class="ficon">฿</div><h3>Pricing transparency</h3><p>Commission disclosed upfront with a full fee breakdown before booking a visit.</p></div>
+      </div>
+      <div class="steps">
+        <div class="step"><div class="num">01</div><h3>Documents submitted</h3><p>ID + deed excerpt, utility bill, or gov QR code.</p></div>
+        <div class="step"><div class="num">02</div><h3>Verified and merged</h3><p>Checked, and duplicates auto-merge.</p></div>
+        <div class="step"><div class="num">03</div><h3>Explore with confidence</h3><p>GPS-tagged photos and video walkthrough.</p></div>
+        <div class="step"><div class="num">04</div><h3>Book to unlock</h3><p>Visit request unlocks exact address.</p></div>
+      </div>
+    </section>
+
+    <section class="screen" id="s-brokers">
+      <h2 style="margin-bottom:6px">Broker accountability score</h2>
+      <p style="color:var(--muted);font-size:14px;margin-bottom:20px">Rated only by buyers who completed a verified transaction.</p>
+      <div class="brokers">
+        <div class="bcard"><div class="bcard-top"><div class="avatar">MH</div><div><h4>Mostafa H.</h4><div class="sub">New Cairo · 3 years</div></div></div><div class="score-row"><span class="score">4.8</span><span class="score-max">/5 · 32 deals</span></div><div class="bar"><div class="bar-fill" style="width:96%"></div></div></div>
+        <div class="bcard"><div class="bcard-top"><div class="avatar">RA</div><div><h4>Rania A.</h4><div class="sub">Sheikh Zayed · 5 years</div></div></div><div class="score-row"><span class="score">4.6</span><span class="score-max">/5 · 51 deals</span></div><div class="bar"><div class="bar-fill" style="width:92%"></div></div></div>
+        <div class="bcard"><div class="bcard-top"><div class="avatar">KS</div><div><h4>Karim S.</h4><div class="sub">6th of October · 2 years</div></div></div><div class="score-row"><span class="score">4.9</span><span class="score-max">/5 · 18 deals</span></div><div class="bar"><div class="bar-fill" style="width:98%"></div></div></div>
+      </div>
+    </section>
+
+    <section class="screen" id="s-assistant">
+      <h2 style="margin-bottom:16px">Ask the assistant</h2>
+      <div class="chatbox">
+        <div class="chat-head"><span class="dot-live"></span> Aqar Yaqeen assistant</div>
+        <div class="chat-body" id="chatBody"><div class="msg bot">Hi, I can help you find a verified home. What's your budget and area?</div></div>
+        <div class="typing" id="typing"><span></span><span></span><span></span></div>
+        <div class="chat-quick">
+          <button class="qbtn" onclick="sendQuick('Around 3 million EGP in New Cairo')">Around 3M EGP, New Cairo</button>
+          <button class="qbtn" onclick="sendQuick('First home, need it verified')">First home, need it verified</button>
+          <button class="qbtn" onclick="sendQuick('What documents get checked?')">What documents get checked?</button>
+        </div>
+        <div class="chat-input-row"><input type="text" id="chatInput" placeholder="Type a message..." onkeydown="if(event.key==='Enter')sendMessage()"><button onclick="sendMessage()">Send</button></div>
+      </div>
+    </section>
+
+    <section class="screen" id="s-account">
+      <h2 style="margin-bottom:16px">My requests</h2>
+      <div id="accountList"></div>
+    </section>
+  </main>
+</div>
+
+<script>
+const listings = [
+  {id:1,title:"2BR apartment, Al Narges",area:"New Cairo",price:2450000,commission:1.5,merged:false},
+  {id:2,title:"3BR apartment, Zayed Dunes",area:"Sheikh Zayed",price:3900000,commission:2,merged:true,mergedCount:3},
+  {id:3,title:"Studio, Beverly Hills",area:"6th of October",price:1650000,commission:1,merged:false},
+  {id:4,title:"3BR apartment, Mivida",area:"New Cairo",price:4800000,commission:2.5,merged:false},
+  {id:5,title:"2BR apartment, Sodic West",area:"Sheikh Zayed",price:2900000,commission:1.5,merged:false},
+  {id:6,title:"4BR villa, Palm Hills October",area:"6th of October",price:7200000,commission:2,merged:false},
+  {id:7,title:"2BR apartment, Katameya",area:"New Cairo",price:2150000,commission:1,merged:false},
+  {id:8,title:"3BR apartment, Aliva Zayed",area:"Sheikh Zayed",price:3300000,commission:2,merged:false}
+];
+let verifiedOnly = true;
+let currentListing = null;
+let requests = [];
+function fmt(n){return n.toLocaleString()+' EGP';}
+
+function go(s){
+  document.querySelectorAll('.screen').forEach(el=>el.classList.remove('active'));
+  document.getElementById('s-'+s).classList.add('active');
+  document.querySelectorAll('.navbtn').forEach(b=>b.classList.toggle('active', b.dataset.s===s));
+  if(s==='account') renderAccount();
+  if(s==='listings') renderGrid();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function toggleVerified(){
+  verifiedOnly=!verifiedOnly;
+  document.getElementById('vToggle').classList.toggle('on', verifiedOnly);
+  renderGrid();
+}
+
+function renderGrid(){
+  const q=(document.getElementById('searchInput').value||'').toLowerCase();
+  const items = listings.filter(l => l.title.toLowerCase().includes(q) || l.area.toLowerCase().includes(q));
+  document.getElementById('grid').innerHTML = items.map(l=>`
+    <div class="lcard" onclick="openDetail(${l.id})">
+      <div class="lthumb"><span class="tag">GPS-verified</span></div>
+      <div class="lbody">
+        <div class="badges">
+          <span class="seal"><span class="ring">✓</span>Verified</span>
+          ${l.merged?`<span class="merged">×${l.mergedCount}</span>`:''}
+        </div>
+        <h4>${l.title}</h4>
+        <p class="meta">${l.area}</p>
+        <p class="price">${fmt(l.price)}</p>
+      </div>
+    </div>
+  `).join('') || '<p style="color:var(--muted)">No listings match.</p>';
+}
+renderGrid();
+
+function openDetail(id){
+  currentListing = listings.find(l=>l.id===id);
+  const commissionAmt = Math.round(currentListing.price*currentListing.commission/100);
+  document.getElementById('s-detail').innerHTML = `
+    <button class="back" onclick="go('listings')">&larr; Back to listings</button>
+    <div class="detail-photo"></div>
+    <div class="badges" style="display:flex;justify-content:space-between;margin-bottom:12px">
+      <span class="seal"><span class="ring">✓</span>Verified</span>
+      ${currentListing.merged?`<span class="merged">Merged from ${currentListing.mergedCount} broker posts</span>`:''}
+    </div>
+    <h2 style="font-size:22px">${currentListing.title}</h2>
+    <p style="color:var(--muted);margin:4px 0 0">${currentListing.area}</p>
+    <div class="price-box">
+      <div class="price-row"><span>Property price</span><span>${fmt(currentListing.price)}</span></div>
+      <div class="price-row"><span>Broker commission (${currentListing.commission}%)</span><span>${fmt(commissionAmt)}</span></div>
+      <div class="price-row total"><span>Total upfront</span><span>${fmt(currentListing.price)}</span></div>
+    </div>
+    <div class="loc-box"><strong>Approximate location.</strong> Exact address unlocks once your visit is confirmed.</div>
+    <ul class="checklist">
+      <li>Verified national ID on file for seller</li>
+      <li>Deed excerpt or utility bill matched to address</li>
+      <li>GPS-tagged photos and video walkthrough</li>
+    </ul>
+    <button class="btn btn-primary" onclick="renderAction()">Request a visit</button>
+  `;
+  go('detail');
+}
+
+function renderAction(){
+  document.getElementById('s-action').innerHTML = `
+    <button class="back" onclick="go('detail')">&larr; Back to listing</button>
+    <h2>Request a visit</h2>
+    <p style="color:var(--muted);font-size:14px">${currentListing.title}, ${currentListing.area}</p>
+    <div class="escrow-note">A small refundable booking fee (100 EGP) is held to confirm you're a serious visitor.</div>
+    <div class="form-group"><label>Full name</label><input id="fName"><div class="error" id="errName">Enter your name first.</div></div>
+    <div class="form-group"><label>Phone number</label><input id="fPhone" placeholder="01xxxxxxxxx"><div class="error" id="errPhone">Enter a phone number first.</div></div>
+    <div class="form-group"><label>Preferred visit time</label><input id="fTime" placeholder="e.g. Saturday afternoon"><div class="error" id="errTime">Enter a preferred time first.</div></div>
+    <button class="btn btn-primary" onclick="submitRequest()">Submit request</button>
+    <div class="success" id="successMsg">Request sent. Check My requests — the address unlocks once the owner confirms.</div>
+  `;
+  go('action');
+}
+
+function submitRequest(){
+  const name=document.getElementById('fName').value.trim();
+  const phone=document.getElementById('fPhone').value.trim();
+  const time=document.getElementById('fTime').value.trim();
+  document.getElementById('errName').style.display = name?'none':'block';
+  document.getElementById('errPhone').style.display = phone?'none':'block';
+  document.getElementById('errTime').style.display = time?'none':'block';
+  if(!name||!phone||!time) return;
+  requests.push({listing:currentListing,name,phone,time,confirmed:false});
+  document.getElementById('successMsg').style.display='block';
+  setTimeout(()=>{requests[requests.length-1].confirmed=true;},4000);
+}
+
+function renderAccount(){
+  const el=document.getElementById('accountList');
+  if(requests.length===0){el.innerHTML='<div class="empty">No visit requests yet.</div>';return;}
+  el.innerHTML=requests.map(r=>`
+    <div class="account-item">
+      <div>
+        <p style="margin:0 0 4px;font-weight:600">${r.listing.title}</p>
+        <p style="margin:0;font-size:13px;color:var(--muted)">${r.listing.area} — ${r.time}</p>
+        ${r.confirmed?`<p style="margin:6px 0 0;font-size:13px;color:var(--deep3)">Exact address unlocked.</p>`:''}
+      </div>
+      <span class="status ${r.confirmed?'confirmed':''}">${r.confirmed?'Confirmed':'Pending owner'}</span>
+    </div>
+  `).join('');
+}
+
+const chatBody = document.getElementById('chatBody');
+const typingEl = document.getElementById('typing');
+function addMsg(text, who){
+  const d=document.createElement('div');
+  d.className='msg '+who;
+  d.textContent=text;
+  chatBody.appendChild(d);
+  chatBody.scrollTop=chatBody.scrollHeight;
+}
+function reply(t){
+  typingEl.classList.add('show');
+  const low=t.toLowerCase();
+  setTimeout(()=>{
+    typingEl.classList.remove('show');
+    let r;
+    if(low.includes('document')||low.includes('check')){
+      r="Every listing needs a proof document — deed excerpt, utility bill, or gov QR code — plus a matching national ID.";
+    } else if(low.includes('million')||/\d/.test(low)){
+      r="Got it. I'd point you toward the verified listings in New Cairo and Sheikh Zayed in that range — want me to filter the listings page to just those?";
+    } else if(low.includes('first home')||low.includes('verified')){
+      r="Since it's your first home, I'd recommend booking a verification-agent visit too — a third party confirms the property before you commit your own time.";
+    } else {
+      r="Tell me your budget and area, and I'll explain why I'm recommending specific verified listings.";
+    }
+    addMsg(r,'bot');
+  },900);
+}
+function sendMessage(){
+  const input=document.getElementById('chatInput');
+  const v=input.value.trim();
+  if(!v)return;
+  addMsg(v,'user');
+  input.value='';
+  reply(v);
+}
+function sendQuick(t){addMsg(t,'user');reply(t);}
+</script>
+</body>
+</html>
